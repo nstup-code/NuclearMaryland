@@ -162,17 +162,17 @@ button, .link {
 
   <textarea id="message">Dear Maryland State Senator and Delegates,
 
-As a Maryland college student, I am interested in the role nuclear energy could play in our state's clean energy future.
+My name is {NAME} and I am a current student at the university of maryland. I am writing this email to you because I am intersted in increasing our states investment in nuclear energy
 
-I recently learned about Maryland House Bill 970 (2026), which proposed recognizing certain nuclear energy as part of Maryland's clean energy portfolio.
-
-I encourage you to consider similar legislation in the 2027 legislative session and explore how nuclear energy can contribute to a reliable, low-carbon electricity supply for Maryland.
-
-I would appreciate hearing your perspective on this issue.
+I believe that it is in the best intersts of the state of Maryland, and the world as a whole that nuclear energy is destigmatized, and that bills supporting nuclear energy are passed
+    
+I am now writing to ask you if you would be willing to support or sponser bills that promote nuclear enrgy, and improve our states advantage when it comes to nuclear energy.
 
 Thank you for your time and for representing our community.
 
-Sincerely,</textarea>
+Sincerely,
+  {NAME}
+  </textarea>
 
   <button onclick="createEmail()">
     Prepare My Email
@@ -188,12 +188,12 @@ Sincerely,</textarea>
 
 
 <script>
+
 function createEmail() {
   const name = document.getElementById("name").value.trim();
   const rawEmails = document.getElementById("emails").value;
   const message = document.getElementById("message").value.trim();
 
-  // Accept any number of email addresses
   const emails = [...new Set(
     rawEmails
       .split(/[,;\s]+/)
@@ -218,17 +218,15 @@ function createEmail() {
     return;
   }
 
-  const body =
-    message + "\n\n" +
-    name +
-    "\nMaryland Resident";
+  // Replace every occurrence of {NAME} with the student's name
+  const personalizedMessage = message.replace(/\{NAME\}/gi, name);
 
   const emailLink =
     "mailto:" + emails.join(",") +
     "?subject=" +
     encodeURIComponent("Maryland's Clean Energy Future") +
     "&body=" +
-    encodeURIComponent(body);
+    encodeURIComponent(personalizedMessage);
 
   window.location.href = emailLink;
 }
