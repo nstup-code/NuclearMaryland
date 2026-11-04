@@ -4,142 +4,162 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Power the Future | Maryland</title>
+<title>Power the Future - Maryland</title>
+
 <style>
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
+  padding: 20px;
   font-family: Arial, sans-serif;
-  background: #f2f5f3;
+  background: #f3f5f4;
   color: #193b32;
 }
+
 main {
-  max-width: 650px;
-  margin: 35px auto;
-  padding: 20px;
+  max-width: 620px;
+  margin: 20px auto;
 }
+
 header {
   background: #153e35;
   color: white;
   text-align: center;
-  padding: 38px 20px;
-  border-radius: 16px;
+  padding: 30px 20px;
+  border-radius: 12px;
 }
-header h1 { font-size: 32px; margin: 0 0 12px; }
-header p { color: #d9e9e2; line-height: 1.6; }
+
+header h1 {
+  margin: 0 0 10px;
+  font-size: 30px;
+}
+
+header p {
+  margin: 0;
+  color: #dce9e3;
+}
+
 section {
   background: white;
-  border-radius: 13px;
-  padding: 23px;
+  padding: 22px;
   margin-top: 18px;
-  box-shadow: 0 2px 10px #0000000b;
+  border-radius: 10px;
 }
-h2 { font-size: 20px; }
+
+h2 {
+  font-size: 20px;
+  margin-top: 0;
+}
+
 label {
   display: block;
   font-weight: bold;
-  margin: 16px 0 7px;
+  margin: 15px 0 7px;
 }
+
 input, textarea {
   width: 100%;
   padding: 12px;
-  border: 1px solid #bdccc5;
-  border-radius: 7px;
-  font: inherit;
+  border: 1px solid #c5d0ca;
+  border-radius: 6px;
+  font-family: Arial, sans-serif;
+  font-size: 15px;
 }
-textarea { min-height: 180px; resize: vertical; }
+
+textarea {
+  min-height: 190px;
+  resize: vertical;
+}
+
 button, .link {
   display: block;
   width: 100%;
-  padding: 14px;
-  border: 0;
-  border-radius: 8px;
-  margin-top: 14px;
+  padding: 13px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 6px;
   background: #c18b36;
   color: white;
-  font-weight: bold;
   font-size: 15px;
+  font-weight: bold;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
 }
-.link { background: #153e35; }
-button:disabled { opacity: .5; }
+
+.link {
+  background: #153e35;
+}
+
 .small {
-  color: #65736d;
   font-size: 13px;
-  line-height: 1.6;
-}
-.result {
-  background: #edf4f0;
-  padding: 14px;
-  border-radius: 8px;
-  margin-top: 14px;
-  overflow-wrap: anywhere;
-}
-.hidden { display: none; }
-footer {
-  text-align: center;
-  color: #65736d;
-  font-size: 12px;
-  padding: 25px;
+  color: #68756e;
+  line-height: 1.5;
 }
 </style>
 </head>
 
 <body>
+
 <main>
 
 <header>
   <h1>POWER THE FUTURE</h1>
-  <p>Maryland's clean energy future starts with your voice.</p>
-  <p>One message can make a difference.</p>
+  <p>Make your voice heard in Maryland's energy future.</p>
 </header>
 
 <section>
-  <h2>01 — Where do you live?</h2>
-  <p>Enter your Maryland home address to identify your legislative district.</p>
+  <h2>1. Find Your Maryland Legislators</h2>
 
-  <label for="street">Street Address</label>
-  <input id="street" placeholder="123 Main Street">
+  <p>
+    Start by finding your Maryland State Senator and
+    three State Delegates using the official Maryland
+    General Assembly website.
+  </p>
 
-  <label for="city">City</label>
-  <input id="city" placeholder="College Park">
-
-  <label for="zip">ZIP Code</label>
-  <input id="zip" placeholder="20742" maxlength="5"
-    inputmode="numeric">
-
-  <button onclick="findDistrict()">Find My District</button>
-
-  <div id="status" class="small"></div>
-  <div id="district" class="result hidden"></div>
-
-  <a class="link"
-    href="https://www.mgaleg.maryland.gov/mgawebsite/Members/District"
-    target="_blank">
-    Open Official Maryland Legislator Lookup
+  <a
+    class="link"
+    href="https://mgaleg.maryland.gov/mgawebsite/Members/District"
+    target="_blank"
+    rel="noopener noreferrer">
+    Find My Maryland Legislators
   </a>
 
   <p class="small">
-    Use the official lookup to verify your state senator and
-    all three delegates, including their current email addresses.
+    Enter your home address on the official website.
+    Find your senator and three delegates, along with
+    their official email addresses. Then return here.
   </p>
 </section>
 
 <section>
-  <h2>02 — Identify your representatives</h2>
-  <p>Copy the four official email addresses from the Maryland lookup.</p>
-
-  <label for="emails">Legislator Email Addresses</label>
-  <textarea id="emails"
-    placeholder="Paste the four email addresses, separated by commas"
-    style="min-height:90px"></textarea>
+  <h2>2. Enter Your Information</h2>
 
   <label for="name">Your Name</label>
-  <input id="name" placeholder="First and Last Name">
+  <input
+    id="name"
+    type="text"
+    placeholder="First and Last Name">
 
-  <label for="message">Your Message</label>
+  <label for="emails">Legislator Email Addresses</label>
+  <textarea
+    id="emails"
+    style="min-height: 85px;"
+    placeholder="Paste the four email addresses, separated by commas"></textarea>
+
+  <p class="small">
+    Include your State Senator and all three State Delegates.
+  </p>
+</section>
+
+<section>
+  <h2>3. Write Your Representatives</h2>
+
+  <label for="message">Your Email</label>
+
   <textarea id="message">Dear Maryland State Senator and Delegates,
 
 As a Maryland college student, I am interested in the role nuclear energy could play in our state's clean energy future.
@@ -154,167 +174,56 @@ Thank you for your time and for representing our community.
 
 Sincerely,</textarea>
 
-  <button onclick="createEmail()">Prepare My Email</button>
+  <button onclick="createEmail()">
+    Prepare My Email
+  </button>
+
   <p class="small">
-    Your email application will open with the message prepared.
-    You can review and edit it before sending. Nothing is sent
-    automatically.
+    Your email application will open with the message
+    prepared. You can review and edit it before sending.
   </p>
 </section>
 
-<footer>
-  Maryland students. Maryland voices. Maryland's future.
-</footer>
-
 </main>
 
-
 <script>
-function censusLookup(url) {
-  return new Promise((resolve, reject) => {
-    const callback = "censusCallback_" +
-      Math.random().toString(36).slice(2);
-
-    const script = document.createElement("script");
-    const timeout = setTimeout(() => {
-      cleanup();
-      reject(new Error("The Census lookup timed out."));
-    }, 15000);
-
-    function cleanup() {
-      clearTimeout(timeout);
-      delete window[callback];
-      script.remove();
-    }
-
-    window[callback] = data => {
-      cleanup();
-      resolve(data);
-    };
-
-    script.onerror = () => {
-      cleanup();
-      reject(new Error("Unable to contact Census Geocoder."));
-    };
-
-    script.src = url + "&format=jsonp&callback=" + callback;
-    document.head.appendChild(script);
-  });
-}
-
-async function findDistrict() {
-  const street = document.getElementById("street").value.trim();
-  const city = document.getElementById("city").value.trim();
-  const zip = document.getElementById("zip").value.trim();
-
-  const status = document.getElementById("status");
-  const result = document.getElementById("district");
-
-  result.classList.add("hidden");
-
-  if (!street || !city || !/^\d{5}$/.test(zip)) {
-    status.textContent =
-      "Please enter your street address, city, and five-digit ZIP code.";
-    return;
-  }
-
-  status.textContent = "Looking up your address...";
-
-  try {
-    const address = encodeURIComponent(
-      street + ", " + city + ", MD " + zip
-    );
-
-    const url =
-      "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress" +
-      "?address=" + address +
-      "&benchmark=Public_AR_Current" +
-      "&vintage=Current_Current";
-
-    const data = await censusLookup(url);
-
-    const matches = data?.result?.addressMatches || [];
-
-    if (!matches.length) {
-      throw new Error(
-        "No matching address found. Check your spelling and try again."
-      );
-    }
-
-    const match = matches[0];
-    const components = match.addressComponents || {};
-
-    if (components.state !== "MD") {
-      throw new Error("This tool is only for Maryland addresses.");
-    }
-
-    const geographies = match.geographies || {};
-    const keys = Object.keys(geographies);
-
-    function findLayer(chamber) {
-      const key = keys.find(k => {
-        const normalized = k.toLowerCase();
-        return normalized.includes("state legislative district") &&
-          normalized.includes(chamber);
-      });
-
-      return key ? geographies[key]?.[0] : null;
-    }
-
-    const senate = findLayer("upper");
-    const house = findLayer("lower");
-
-    if (!senate || !house) {
-      throw new Error(
-        "Your address matched, but legislative districts were not returned. Please use the official Maryland lookup."
-      );
-    }
-
-    const senateDistrict = senate.BASENAME || senate.NAME;
-    const houseDistrict = house.BASENAME || house.NAME;
-
-    result.innerHTML = `
-      <strong>Address successfully matched!</strong><br><br>
-      State Senate District: ${senateDistrict}<br>
-      State House District: ${houseDistrict}<br><br>
-      <strong>Next:</strong> Verify your senator and three delegates
-      using the official Maryland directory.
-    `;
-
-    result.classList.remove("hidden");
-    status.textContent = "District lookup successful!";
-
-  } catch (error) {
-    status.textContent = error.message;
-    console.error("Address lookup error:", error);
-  }
-}
-
 function createEmail() {
-  const raw = document.getElementById("emails").value;
   const name = document.getElementById("name").value.trim();
+  const rawEmails = document.getElementById("emails").value;
   const message = document.getElementById("message").value.trim();
 
-  const emails = raw.split(/[,;\s]+/)
-    .map(x => x.trim())
-    .filter(x => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x));
+  const emails = rawEmails
+    .split(/[,;\s]+/)
+    .map(email => email.trim())
+    .filter(email =>
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    );
 
   if (emails.length !== 4) {
-    alert("Please enter four verified legislator email addresses.");
+    alert(
+      "Please enter all four valid legislator email addresses."
+    );
     return;
   }
 
-  const body = message + "\n\n" +
-    (name || "[Your Name]") +
+  if (!name) {
+    alert("Please enter your name.");
+    return;
+  }
+
+  const body =
+    message + "\n\n" +
+    name +
     "\nMaryland Resident";
 
-  const link = "mailto:" + emails.join(",") +
-    "?subject=" + encodeURIComponent(
-      "Maryland's Clean Energy Future"
-    ) +
-    "&body=" + encodeURIComponent(body);
+  const emailLink =
+    "mailto:" + emails.join(",") +
+    "?subject=" +
+    encodeURIComponent("Maryland's Clean Energy Future") +
+    "&body=" +
+    encodeURIComponent(body);
 
-  window.location.href = link;
+  window.location.href = emailLink;
 }
 </script>
 
