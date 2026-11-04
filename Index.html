@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Power the Future | Maryland</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f5f4;
+  color: #192d29;
+}
+main {
+  max-width: 620px;
+  margin: 40px auto;
+  padding: 28px;
+}
+header {
+  background: #153e35;
+  color: white;
+  padding: 35px 25px;
+  border-radius: 16px;
+  text-align: center;
+}
+header h1 { font-size: 30px; margin: 0 0 10px; }
+header p { color: #dcebe5; line-height: 1.5; }
+section {
+  background: white;
+  padding: 24px;
+  border-radius: 14px;
+  margin-top: 18px;
+  box-shadow: 0 2px 12px #0000000c;
+}
+h2 { font-size: 19px; }
+label {
+  display: block;
+  margin: 16px 0 7px;
+  font-weight: bold;
+  font-size: 14px;
+}
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5d1;
+  border-radius: 7px;
+  font: inherit;
+}
+textarea { min-height: 180px; resize: vertical; }
+button, .link {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  margin-top: 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #c48c35;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+button:disabled { opacity: .5; cursor: not-allowed; }
+.link { background: #153e35; }
+.small { color: #66736e; font-size: 13px; line-height: 1.5; }
+footer { text-align: center; margin: 25px 0; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>POWER THE FUTURE</h1>
+  <p>Maryland's clean energy future starts with your voice.</p>
+</header>
+
+<section>
+  <h2>01 — Find Your Representatives</h2>
+  <p>Enter your Maryland ZIP code to get started.</p>
+  <label for="zip">ZIP Code</label>
+  <input id="zip" inputmode="numeric" maxlength="5"
+    placeholder="Example: 20742">
+  <button onclick="findLegislators()">Find My Legislators</button>
+  <p class="small">
+    You'll be directed to Maryland's official legislator lookup.
+    Enter your full home address and ZIP code there to find
+    your state senator and delegates.
+  </p>
+</section>
+
+<section>
+  <h2>02 — Write Your Representatives</h2>
+  <p>Enter the email addresses listed on the official lookup page.</p>
+
+  <label for="name">Your Name</label>
+  <input id="name" placeholder="First and last name">
+
+  <label for="emails">Legislator Email Addresses</label>
+  <textarea id="emails" style="min-height:85px"
+    placeholder="Paste email addresses, separated by commas"></textarea>
+
+  <label for="message">Your Email</label>
+  <textarea id="message">Dear Maryland Representative,
+
+As a Maryland college student, I am interested in the role nuclear energy could play in our state's clean energy future.
+
+I recently learned about HB 970 (2026), which proposed recognizing certain nuclear energy as part of Maryland's clean energy portfolio. I encourage you to consider similar legislation in the 2027 session.
+
+I would appreciate hearing your perspective on nuclear energy and its potential role in Maryland's energy policy.
+
+Thank you for your time.
+
+Sincerely,</textarea>
+
+  <button onclick="createEmail()">Create My Email</button>
+  <p class="small">
+    Your email will open in your own email application.
+    Review and send it yourself. This website does not
+    send or store messages.
+  </p>
+</section>
+
+<footer class="small">
+  Maryland students. Maryland voices. Maryland's future.
+</footer>
+</main>
+
+<script>
+function findLegislators() {
+  const zip = document.getElementById("zip").value.trim();
+
+  if (!/^\d{5}$/.test(zip)) {
+    alert("Please enter a valid five-digit ZIP code.");
+    return;
+  }
+
+  window.open(
+    "https://mgaleg.maryland.gov/mgawebsite/Members/District",
+    "_blank"
+  );
+}
+
+function createEmail() {
+  const name = document.getElementById("name").value.trim();
+  const zip = document.getElementById("zip").value.trim();
+  const raw = document.getElementById("emails").value;
+
+  const recipients = raw.split(/[,;\s]+/)
+    .map(x => x.trim())
+    .filter(x => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x));
+
+  if (!recipients.length) {
+    alert("Please enter at least one valid legislator email address.");
+    return;
+  }
+
+  const message = document.getElementById("message").value.trim()
+    + "\n\n" + (name || "[Your Name]")
+    + "\nMaryland ZIP: " + (zip || "[ZIP Code]");
+
+  const url = "mailto:" + recipients.join(",")
+    + "?subject=" + encodeURIComponent(
+      "Maryland's Clean Energy Future"
+    )
+    + "&body=" + encodeURIComponent(message);
+
+  window.location.href = url;
+}
+</script>
+</body>
+</html>
+
