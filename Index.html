@@ -107,8 +107,8 @@ button, .link {
 <main>
 
 <header>
-  <h1>POWER THE FUTURE</h1>
-  <p>Make your voice heard in Maryland's energy future.</p>
+  <h1>Nuclear Power Advocacy</h1>
+  <p>You can use this website to contact your legislator.</p>
 </header>
 
 <section>
@@ -186,28 +186,35 @@ Sincerely,</textarea>
 
 </main>
 
+
 <script>
 function createEmail() {
   const name = document.getElementById("name").value.trim();
   const rawEmails = document.getElementById("emails").value;
   const message = document.getElementById("message").value.trim();
 
-  const emails = rawEmails
-    .split(/[,;\s]+/)
-    .map(email => email.trim())
-    .filter(email =>
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-    );
+  // Accept any number of email addresses
+  const emails = [...new Set(
+    rawEmails
+      .split(/[,;\s]+/)
+      .map(email => email.trim())
+      .filter(email =>
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+      )
+  )];
 
-  if (emails.length !== 4) {
-    alert(
-      "Please enter all four valid legislator email addresses."
-    );
+  if (emails.length === 0) {
+    alert("Please enter at least one valid email address.");
     return;
   }
 
   if (!name) {
     alert("Please enter your name.");
+    return;
+  }
+
+  if (!message) {
+    alert("Please enter a message.");
     return;
   }
 
@@ -226,6 +233,7 @@ function createEmail() {
   window.location.href = emailLink;
 }
 </script>
+
 
 </body>
 </html>
