@@ -168,11 +168,45 @@ Sincerely,</textarea>
 
 </main>
 
+
 <script>
+function censusLookup(url) {
+  return new Promise((resolve, reject) => {
+    const callback = "censusCallback_" +
+      Math.random().toString(36).slice(2);
+
+    const script = document.createElement("script");
+    const timeout = setTimeout(() => {
+      cleanup();
+      reject(new Error("The Census lookup timed out."));
+    }, 15000);
+
+    function cleanup() {
+      clearTimeout(timeout);
+      delete window[callback];
+      script.remove();
+    }
+
+    window[callback] = data => {
+      cleanup();
+      resolve(data);
+    };
+
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("Unable to contact Census Geocoder."));
+    };
+
+    script.src = url + "&format=jsonp&callback=" + callback;
+    document.head.appendChild(script);
+  });
+}
+
 async function findDistrict() {
   const street = document.getElementById("street").value.trim();
   const city = document.getElementById("city").value.trim();
   const zip = document.getElementById("zip").value.trim();
+
   const status = document.getElementById("status");
   const result = document.getElementById("district");
 
@@ -180,11 +214,11 @@ async function findDistrict() {
 
   if (!street || !city || !/^\d{5}$/.test(zip)) {
     status.textContent =
-      "Please enter your full street address, city, and five-digit ZIP code.";
+      "Please enter your street address, city, and five-digit ZIP code.";
     return;
   }
 
-  status.textContent = "Checking your address...";
+  status.textContent = "Looking up your address...";
 
   try {
     const address = encodeURIComponent(
@@ -195,55 +229,64 @@ async function findDistrict() {
       "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress" +
       "?address=" + address +
       "&benchmark=Public_AR_Current" +
-      "&vintage=Current_Current" +
-      "&format=json";
+      "&vintage=Current_Current";
 
-    const response = await fetch(url);
+    const data = await censusLookup(url);
 
-    if (!response.ok) throw new Error("Lookup unavailable");
-
-    const data = await response.json();
-    const matches =
-      data.result.addressMatches || [];
+    const matches = data?.result?.addressMatches || [];
 
     if (!matches.length) {
-      throw new Error("Address not matched");
+      throw new Error(
+        "No matching address found. Check your spelling and try again."
+      );
     }
 
-    const geo = matches[0].geographies || {};
+    const match = matches[0];
+    const components = match.addressComponents || {};
 
-    const upper = Object.keys(geo).find(
-      key => key.toLowerCase().includes("state legislative district")
-      && key.toLowerCase().includes("upper")
-    );
-
-    const lower = Object.keys(geo).find(
-      key => key.toLowerCase().includes("state legislative district")
-      && key.toLowerCase().includes("lower")
-    );
-
-    let html = "<strong>Address matched!</strong><br>";
-
-    if (upper && geo[upper].length) {
-      html += "State Senate District: " +
-        geo[upper][0].BASENAME + "<br>";
+    if (components.state !== "MD") {
+      throw new Error("This tool is only for Maryland addresses.");
     }
 
-    if (lower && geo[lower].length) {
-      html += "State House District: " +
-        geo[lower][0].BASENAME + "<br>";
+    const geographies = match.geographies || {};
+    const keys = Object.keys(geographies);
+
+    function findLayer(chamber) {
+      const key = keys.find(k => {
+        const normalized = k.toLowerCase();
+        return normalized.includes("state legislative district") &&
+          normalized.includes(chamber);
+      });
+
+      return key ? geographies[key]?.[0] : null;
     }
 
-    html += "<br>Now verify your four representatives using the official Maryland directory.";
+    const senate = findLayer("upper");
+    const house = findLayer("lower");
 
-    result.innerHTML = html;
+    if (!senate || !house) {
+      throw new Error(
+        "Your address matched, but legislative districts were not returned. Please use the official Maryland lookup."
+      );
+    }
+
+    const senateDistrict = senate.BASENAME || senate.NAME;
+    const houseDistrict = house.BASENAME || house.NAME;
+
+    result.innerHTML = `
+      <strong>Address successfully matched!</strong><br><br>
+      State Senate District: ${senateDistrict}<br>
+      State House District: ${houseDistrict}<br><br>
+      <strong>Next:</strong> Verify your senator and three delegates
+      using the official Maryland directory.
+    `;
+
     result.classList.remove("hidden");
-    status.textContent = "Address lookup complete.";
+    status.textContent = "District lookup successful!";
 
   } catch (error) {
-    status.textContent =
-      "We could not automatically verify this address. " +
-      "Please use the official Maryland legislator lookup below.";
+    status.textContent = error.message;
+    console.error("Address lookup error:", error);
   }
 }
 
@@ -254,12 +297,10 @@ function createEmail() {
 
   const emails = raw.split(/[,;\s]+/)
     .map(x => x.trim())
-    .filter(x =>
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x)
-    );
+    .filter(x => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x));
 
   if (emails.length !== 4) {
-    alert("Please enter all four verified legislator email addresses.");
+    alert("Please enter four verified legislator email addresses.");
     return;
   }
 
@@ -276,5 +317,6 @@ function createEmail() {
   window.location.href = link;
 }
 </script>
+
 </body>
 </html>
